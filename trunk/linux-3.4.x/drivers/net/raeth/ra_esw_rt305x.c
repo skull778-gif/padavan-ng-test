@@ -310,16 +310,13 @@ static void mt7628_ephy_init(void)
 	/* 1. Перевести пин P2_LED_AN (GPIO 41) в режим GPIO.
 	 *    Биты 7:6 в GPIOMODE2 (0x64): 1 = GPIO.
 	 */
-	phy_val = sysRegRead(0xB0000064);
-	phy_val &= ~(0x3 << 6);
-	phy_val |= (0x1 << 6);
-	sysRegWrite(0xB0000064, phy_val);
+	sysRegWrite(0xB0000064, 0x0);  // EPHY LED mode
 
 	/* 2. Настроить LEDC (0x168): LED_SEL = 0 (ESW LED Control). */
 	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (1 << 8));  // LED_SEL = 1
 
 	/* 3. Маска портов LEDP_BASE (0xA4): 0x1E = порты 1,2,3,4 (LAN). */
-	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000000E);
+	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000001E);
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
