@@ -304,19 +304,12 @@ static void mt7628_ephy_init(void)
 	mii_mgr_write(0, 30, 0x0500);
 
 	/* ============================================================ */
-	/* LED Control — на основе Programming Guide MT7628 и DTS OpenWrt */
+	/* LED Control */
 	/* ============================================================ */
 
-	/* 1. Перевести пин P2_LED_AN (GPIO 41) в режим GPIO.
-	 *    Биты 7:6 в GPIOMODE2 (0x64): 1 = GPIO.
-	 */
-	sysRegWrite(0xB0000064, 0x0);  // EPHY LED mode
-
-	/* 2. Настроить LEDC (0x168): LED_SEL = 0 (ESW LED Control). */
-	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (1 << 8));  // LED_SEL = 1
-
-	/* 3. Маска портов LEDP_BASE (0xA4): 0x1E = порты 1,2,3,4 (LAN). */
-	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000000F);
+	sysRegWrite(0xB0000064, 0x0);                              // EPHY LED mode
+	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (2 << 8));  // LED_SEL = 2
+	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000001E);  // маска 0x1E
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
