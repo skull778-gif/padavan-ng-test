@@ -304,12 +304,25 @@ static void mt7628_ephy_init(void)
 	mii_mgr_write(0, 30, 0x0500);
 
 	/* ============================================================ */
-	/* LED Control — запись в LEDP1 (0xA8), а не в LEDP0 (0xA4) */
+	/* LED Control — на основе данных из лога загрузки */
 	/* ============================================================ */
+	/*
+	 * Лог показал: GPIO mode2: 00010001
+	 * Значит:
+	 *   Бит 0  = 1 (P0_LED_AN / WAN в GPIO)
+	 *   Бит 16 = 1 (P4_LED_AN / LAN4 в GPIO)
+	 *   Биты 7:6 = 00 (P2_LED_AN / LAN в EPHY LED mode)
+	 *
+	 * Устанавливаем биты 7:6 в 01, чтобы перевести P2_LED_AN (GPIO 41)
+	 * в режим GPIO, сохраняя биты 0 и 16.
+	 */
+	sysRegWrite(0xB0000064, 0x00010041);  /* GPIO mode2: WAN=GPIO, LAN=GPIO, LAN4=GPIO */
 
-	sysRegWrite(0xB0000064, 0x0);                              // EPHY LED mode
-	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (4 << 8));  // LED_SEL = 4
-	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000003E);        // LEDP1 (LAN1) — маска 0x1E
+	/* Настроить LEDC (0x168): LED_SEL = 4 (недокументированное значение из OpenWrt) */
+	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (4 << 8));
+
+	/* Маска портов LEDP_BASE (0xA4): 0x3E = порты 1,2,3,4,5 (LAN + CPU) */
+	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000003E);
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
