@@ -91,11 +91,11 @@ static void mt7620_ephy_init(void)
 
 	mii_mgr_write(1, 31, 0xa000); // local, page 2
 	mii_mgr_write(0, 16, 0x1111);
-	mii_mgr_write(1, 16, 0x1111);
-	mii_mgr_write(2, 16, 0x1111);
-	mii_mgr_write(3, 16, 0x1111);
+	mii_mgr_write(1, 16, 0x1010);
+	mii_mgr_write(2, 16, 0x1515);
+	mii_mgr_write(3, 16, 0x0f0f);
 #if !defined (CONFIG_RAETH_HAS_PORT4)
-	mii_mgr_write(4, 16, 0x3333);
+	mii_mgr_write(4, 16, 0x1313);
 #endif
 
 #if !defined (CONFIG_RAETH_ESW_CONTROL)
