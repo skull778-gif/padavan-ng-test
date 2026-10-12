@@ -30,7 +30,9 @@
 #define BOARD_NUM_ANT_5G_RX     0
 #define BOARD_NUM_ANT_2G_TX     2
 #define BOARD_NUM_ANT_2G_RX     2
-#define BOARD_NUM_ETH_LEDS      0
+#define BOARD_NUM_ETH_LEDS      1
 #define BOARD_HAS_EPHY_L1000    0
 #define BOARD_HAS_EPHY_W1000    0
-
+#define BOARD_NUM_PHY_PORTS     5
+#define BOARD_LAN_PORT_MASK     0x0F
+#define BOARD_WAN_PORT_MASK     0x10
