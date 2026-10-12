@@ -319,7 +319,7 @@ static void mt7628_ephy_init(void)
 	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (0 << 8));
 
 	/* 3. Маска портов LEDP_BASE (0xA4): 0x1E = порты 1,2,3,4 (LAN). */
-	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000001E);
+	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000000E);
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
