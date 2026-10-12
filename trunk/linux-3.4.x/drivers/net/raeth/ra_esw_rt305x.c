@@ -277,17 +277,20 @@ static void mt7628_ephy_init(void)
 	// reset EPHY
 	esw_ephy_reset();
 
+	/* --- ИЗМЕНЕНИЕ: убрали блок ONE_PORT, который ставил 0x05500550 --- */
 	phy_val = sysRegRead(RALINK_REG_GPIOMODE2);
 	phy_val &= 0xf003f003;
-#if defined (CONFIG_RAETH_ESW_ONE_PORT)
-	phy_val |= 0x05500550; // set P0 EPHY LED mode
-#endif
 	sysRegWrite(RALINK_REG_GPIOMODE2, phy_val);
 
 	udelay(5000);
 
 	mii_mgr_write(0, 31, 0x2000);		// change G2 page
 	mii_mgr_write(0, 26, 0x0000);
+
+	/* --- ИЗМЕНЕНИЕ: переключить пин 41 (P2_LED_AN) в GPIO-режим --- */
+	phy_val = sysRegRead(RALINK_REG_GPIOMODE2);
+	phy_val |= (1u << 3);  // P2_LED_AN_MODE = 1 (GPIO)
+	sysRegWrite(RALINK_REG_GPIOMODE2, phy_val);
 
 	for(i=0; i<5; i++) {
 		mii_mgr_write(i, 31, 0x8000);	// change L0 page
@@ -298,7 +301,7 @@ static void mt7628_ephy_init(void)
 		mii_mgr_write(i, 30, 0xa000);
 		mii_mgr_write(i, 31, 0xa000);	// change L2 page
 		if (i == 0)
-	    	mii_mgr_write(i, 16, 0x0606);
+			mii_mgr_write(i, 16, 0x0606);
 		else
 			mii_mgr_write(i, 16, 0x0000);
 		mii_mgr_write(i, 23, 0x0f0e);
@@ -432,4 +435,3 @@ void rt305x_esw_init(void)
 #endif
 #endif
 }
-
