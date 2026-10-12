@@ -297,7 +297,10 @@ static void mt7628_ephy_init(void)
 #endif
 		mii_mgr_write(i, 30, 0xa000);
 		mii_mgr_write(i, 31, 0xa000);	// change L2 page
-		mii_mgr_write(i, 16, 0x0606);
+		if (i == 0)
+	    	mii_mgr_write(i, 16, 0x0606);
+		else
+			mii_mgr_write(i, 16, 0x0000);
 		mii_mgr_write(i, 23, 0x0f0e);
 		mii_mgr_write(i, 24, 0x1610);
 		mii_mgr_write(i, 30, 0x1f15);
