@@ -327,6 +327,7 @@ static void mt7628_ephy_init(void)
 	mii_mgr_write(0, 31, 0x4000);		// change G4 page
 	mii_mgr_write(0, 29, 0x000d);
 	mii_mgr_write(0, 30, 0x0500);
+	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, (0x1F) | (4 << 8));
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
