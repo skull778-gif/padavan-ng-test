@@ -316,7 +316,7 @@ static void mt7628_ephy_init(void)
 	 * Устанавливаем биты 7:6 в 01, чтобы перевести P2_LED_AN (GPIO 41)
 	 * в режим GPIO, сохраняя биты 0 и 16.
 	 */
-	sysRegWrite(0xB0000064, 0x00010041);  /* GPIO mode2: WAN=GPIO, LAN=GPIO, LAN4=GPIO */
+	sysRegWrite(0xB0000064, 0x00010555);  /* GPIO mode2: WAN=GPIO, LAN=GPIO, LAN4=GPIO */
 
 	/* Настроить LEDC (0x168): LED_SEL = 4 (недокументированное значение из OpenWrt) */
 	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (4 << 8));
