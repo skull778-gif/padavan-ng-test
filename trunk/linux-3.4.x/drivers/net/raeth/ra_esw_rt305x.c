@@ -309,7 +309,7 @@ static void mt7628_ephy_init(void)
 
 	sysRegWrite(0xB0000064, 0x0);                              // EPHY LED mode
 	sysRegWrite(RALINK_ETH_SW_BASE + 0x168, 0x1F | (4 << 8));  // LED_SEL = 4
-	sysRegWrite(RALINK_ETH_SW_BASE + 0xA8, 0x0000001E);        // LEDP1 (LAN1) — маска 0x1E
+	sysRegWrite(RALINK_ETH_SW_BASE + REG_ESW_LEDP_BASE, 0x0000003E);        // LEDP1 (LAN1) — маска 0x1E
 }
 
 void mt7628_esw_eee_enable(int is_eee_enabled)
