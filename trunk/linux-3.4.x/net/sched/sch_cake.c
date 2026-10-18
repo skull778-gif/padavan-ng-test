@@ -2872,7 +2872,7 @@ static void cake_destroy(struct Qdisc *sch)
 #else
 	tcf_block_put(q->block);
 #endif
-	kvfree(q->tins);
+	vfree(q->tins);
 }
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 16, 0)
